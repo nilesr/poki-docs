@@ -12,21 +12,27 @@ This document describes the \fBcrossfs\fR command, used to share a mount point b
 .IP \(bu 2
 Unions files and directories together. If any of the directories contain a
 file, it is available here. This can be used, for example, to ensure man
-can see man pages placed in a variety of locations.
+can see man pages placed in a variety of locations,
 .IP \(bu 2
 Modifies files to handle Bedrock Linux local context issues.  For example,
-executables in directories such as \fI/usr/bin\fR are wrapped in Bedrock Linux's
-\fBstrat(1)\fR utility.
+executables in directories such as \fI/usr/bin\fR are redirected to Bedrock Linux's
+\fBbouncer(1)\fR utility,
 .IP \(bu 2
-Modifies symbolic links to handle the new mount point.
+Modifies symbolic links to handle the new mount point,
 .IP \(bu 2
-Is (baring the \fI/reparse_config\fR file) entirely read\-only.
+Is (baring the \fI/reparse_config\fR file) entirely read\-only,
 .IP \(bu 2
-The contents are updated on\-the\-fly and/or in\-the\-background so whenever a
-file is accessed it is always up\-to\-date.
+Is updated on\-the\-fly and/or in\-the\-background so whenever a
+file is accessed it is always up\-to\-date,
 .IP \(bu 2
-The filesystem can be told to reload its config on\-the\-fly to, for example,
-handle the addition or removal of the directories it is unioning.
+Can be told to reload its config on\-the\-fly to, for example,
+handle the addition or removal of the directories it is unioning,
+.IP \(bu 2
+Does not handle \fBreaddirplus(2)\fR,
+.IP \(bu 2
+populates the Bedrock Linux specific extended filesystem attributes
+.IR user.bedrock.stratum " and " user.bedrock.localpath ", used by "
+.B bouncer(1)
 
 .SS USAGE
 
