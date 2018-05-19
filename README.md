@@ -3,5 +3,19 @@ TODO list
 - `bouncer`
 - `etcfs`
 - `brl`
+	- strat
+	- fetch (get)
+	- which
+	- remove
+	- rename
+	- enable
+	- disable
+	- fix
+	- ignore
+	- unignore
+	- alias
+	- deref
+	- update
+	- report
 - `init` - This name will conflict with the built in init command, maybe `bedrock_init`?
 - `manage_tty_lock`? Unclear if this program is even used anymore
