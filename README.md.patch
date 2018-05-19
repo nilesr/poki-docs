@@ -1,0 +1,83 @@
+diff --git a/README.md b/README.md
+index b79736b..715a0c7 100644
+--- a/README.md
++++ b/README.md
+@@ -1,12 +1,12 @@
+-Bedrock Linux 1.0beta2 Nyla
++Bedrock Linux 0.7.0 Poki
+ ===========================
+ 
+ This is the bulk of the userland for Bedrock Linux.  Further information can be
+ found at [http://bedrocklinux.org](http://bedrocklinux.org).
+ 
+-Specifically, this is the README and files for the second beta, Nyla.  More
++Specifically, this is the README and files for the third beta, Poki.  More
+ information about this release of Bedrock Linux can be found here:
+-[http://bedrocklinux.org/1.0beta2/](http://bedrocklinux.org/1.0beta2/).
++[http://bedrocklinux.org/1.0beta3/](http://bedrocklinux.org/1.0beta3/).
+ 
+ ------------------
+ Build dependencies
+@@ -38,6 +38,7 @@ code for the following projects:
+ - libcap (latest version)
+ - the Linux kernel (tested with 4.1, but newer should be fine)
+ - musl libc (latest from 1.0.X branch)
++- netselect (latest)
+ 
+ then unpackage and place in src/ with the following names:
+ 
+@@ -47,6 +48,7 @@ then unpackage and place in src/ with the following names:
+ - src/libcap/
+ - src/linux_headers/
+ - src/musl/
++- src/netselect/
+ 
+ Then, create a file named ".success_retreiving_source" in the directory, like
+ so:
+@@ -57,6 +59,7 @@ so:
+ - src/libcap/.success_retreiving_source
+ - src/linux_headers/.success_retreiving_source
+ - src/musl/.success_retreiving_source
++- src/netselect/.success_retreiving_source
+ 
+ --------
+ Building
+@@ -83,29 +86,29 @@ run
+ Installation
+ ------------
+ 
+-To install (very brief overview - see release's website for details), method A:
++To perform a hijack install (very brief overview - see release's website for details):
+ 
+ - Install some other distro to handle partitioning and bootloader (as well as
+   things such as full disk encryption).
+ - Boot into other distro, then run:
+ 
+-    cd / && tar xvf <path-to-bedrock-tarball>
++    `cd / && tar xvf <path-to-bedrock-tarball>`
+ 
+-- Acquire other distros' userlands into /bedrock/strata/
++- Acquire other distros' userlands into `/bedrock/strata/`. You can do this manually, or using `brl fetch`
+ - Configure Bedrock Linux
+-- Configure bootloader to use init=/bedrock/sbin/brn
++- Configure bootloader to use `init=/bedrock/sbin/brn`
+ - Reboot into Bedrock Linux.
+ 
+-To install (very brief overview - see release's website for details), method B:
++To perform a manual install (very brief overview - see release's website for details):
+ 
+ - Manually partition and set up desired bootloader, as well as things such as
+   full disk encryption.
+-- Mount partition somewhere (e.g. /mnt/bedrock)
++- Mount partition somewhere (e.g. `/mnt/bedrock`)
+ - Run:
+ 
+-    cd <mount-point> && tar xvf <path-to-bedrock-tarball>
++    `cd <mount-point> && tar xvf <path-to-bedrock-tarball>`
+ 
+-- Acquire other distros' userlands into <mount>/bedrock/strata/
++- Acquire other distros' userlands into `<mount>/bedrock/strata/`.
+ - Configure Bedrock Linux
+-- Configure bootloader to use init=/bedrock/sbin/brn
++- Configure bootloader to use `init=/bedrock/sbin/brn`
+ - Reboot into Bedrock Linux.

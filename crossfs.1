@@ -1,0 +1,208 @@
+.TH CROSSFS 1
+.SH NAME
+crossfs \- shares a mount point between strata
+.SH SYNOPSIS
+.B crossfs
+.I MOUNT
+.SH DESCRIPTION
+This document describes the \fBcrossfs\fR command, used to share a mount point between strata. The \fBcrossfs\fR command is part of the Bedrock Linux userland ⟨https://bedrocklinux.org⟩.
+.P
+.B crossfs
+.R mounts a filesystem which provides the "implicit path" functionality for Bedrock Linux. Specifically it:
+.IP \(bu 2
+Unions files and directories together. If any of the directories contain a
+file, it is available here. This can be used, for example, to ensure man
+can see man pages placed in a variety of locations.
+.IP \(bu 2
+Modifies files to handle Bedrock Linux local context issues.  For example,
+executables in directories such as \fI/usr/bin\fR are wrapped in Bedrock Linux's
+\fBstrat(1)\fR utility.
+.IP \(bu 2
+Modifies symbolic links to handle the new mount point.
+.IP \(bu 2
+Is (baring the \fI/reparse_config\fR file) entirely read\-only.
+.IP \(bu 2
+The contents are updated on\-the\-fly and/or in\-the\-background so whenever a
+file is accessed it is always up\-to\-date.
+.IP \(bu 2
+The filesystem can be told to reload its config on\-the\-fly to, for example,
+handle the addition or removal of the directories it is unioning.
+
+.SS USAGE
+
+Typically this setup automatically before/during init and will not be directly
+utilized by any individual.  If you would like to use it directly for whatever
+reason:
+
+To use (after it is properly configured), run:
+
+.PP
+.nf
+.RS
+crossfs \fIMOUNT\fR
+.RE
+.fi
+.PP
+
+On a typical Bedrock Linux system, this mount point is
+.IR /bedrock/brpath .
+
+To tell it to reload its configuration file and list of strata, write
+(anything) to the file \fIreparse_config\fR in the location where it is mounted.
+Note that the \fBbrl(1)\fR utility will do this automatically when strata are enabled
+or disabled.
+
+.SS CONFIGURATION
+
+crossfs will read the configuration file at
+
+.PP
+.nf
+.RS
+/bedrock/strata/etc/crossfs.conf
+.RE
+.fi
+.PP
+
+This is an ini\-style configuration file.  There are four possible section
+headers, described below.
+.PP
+.I [stratum\-order]
+should list strata, one per line.  The higher the stratum is on
+the list, the higher priority it gets with respect to providing any given
+requested file.  For example, if \fIarch\fR and \fIgentoo\fR both provide a file, but
+\fIgentoo\fR is higher on the list, it will be \fIgentoo\fR's which is provided.
+.PP
+.IR "[pass]" ", " "[brc\-wrap]" " and " "[exec\-filter]" " all should have a number of key\-value"
+pairs where the key is a directory which should appear in the mounted
+filesystem and the value is a comma separated list of directories which should
+be unioned.  For example,
+
+.PP
+.nf
+.RS
+/man/ = /usr/local/share/man, /usr/share/man
+.RE
+.fi
+.PP
+
+Indicates that the root of the brp filesystem should have a directory called
+.IR man " which contains the union of all of the " "/usr/local/share/man" " and " "/usr/share/man"
+directories in all of the strata.  Any file or directory
+which appears in those directories, in any stratum, will appear in the brp
+filesystem.
+.PP
+If the key has a trailing slash then it is considered a directory and it will
+contain the union of all of the items on the right side of the equals sign.  If
+it does not have a trailing slash then it is treated as a file and the first
+file found on the right side of the equals sign will provide the file contents.
+.PP
+If the value on the right side of the equals sign is simply a file path, every
+strata's instance of that path will be searched as a possible input source.
+If a stratum name is just before the path, delimited by a colon, then only that
+stratum's files will be searched.  This is useful to ensure that a given
+program always comes from one stratum.  For example, the stratum that provides
+\fBinit(1)\fR should also provide \fBreboot(1)\fR.
+.PP
+The difference between
+.IR "[pass]" ", " "[brc\-wrap]" " and " "[exec\-filter]" " is that the former"
+passes files through untouched while the latter two modify the files they are
+returning.
+.PP
+.I [brc\-wrap]
+will:
+.IP \(bu 2
+dereference all symlinks.  If any given item in a \fI[brc\-wrap]\fR directory is a broken symlink it is not shown.
+.IP \(bu 2
+The contents returned by a read() are a shell script which results in brc running the requested executable in the proper local context.
+.PP
+.IR [exec\-filter] " will:"
+.IP \(bu 2
+Modify any \fIExec=\fR, \fITryExec=\fR, \fIExecStart=\fR, \fIExecStop=\fR, and/or \fIExecRestart=\fR lines it sees to call the given executable through \fBstrat(1)\fR to properly change context.
+
+.SS EXAMPLE CONFIG
+
+.nf
+# Nothing special with this "pass" category, it just passes files through
+# untouched.
+[pass]
+/man/ = /usr/local/share/man, /usr/share/man
+/info/ = /usr/local/share/info, /usr/share/info
+/icons/ = /usr/local/share/icons, /usr/share/icons
+/firmware/ = /lib/firmware
+/zoneinfo/ = /usr/share/zoneinfo
+
+# This will wrap all items it finds in a script that calls brc to set the local
+# context.  This is important for executables to "just work".
+[brc\-wrap]
+# general executables
+/bin/  = /usr/local/bin, /opt/bin, /usr/bin, /bin
+/sbin/ = /usr/local/sbin, /opt/sbin, /usr/sbin, /sbin
+
+# init\-related commands
+/pin/bin/systemctl = init:/usr/bin/systemctl, init:/bin/systemctl
+/pin/bin/rc\-service = init:/usr/bin/rc\-service, init:/bin/rc\-service
+/pin/bin/rc\-status = init:/usr/bin/rc\-status, init:/bin/rc\-status
+/pin/bin/rc\-update = init:/usr/bin/rc\-update, init:/bin/rc\-update
+
+/pin/sbin/poweroff = init:/usr/sbin/poweroff, init:/sbin/poweroff, init:/usr/bin/poweroff, init:/bin/poweroff
+/pin/sbin/reboot = init:/usr/sbin/reboot, init:/sbin/reboot, init:/usr/bin/reboot, init:/bin/reboot
+/pin/sbin/shutdown = init:/usr/sbin/shutdown, init:/sbin/shutdown, init:/usr/bin/shutdown, init:/bin/shutdown
+/pin/sbin/halt = init:/usr/sbin/halt, init:/sbin/halt, init:/usr/bin/halt, init:/bin/halt
+/pin/sbin/systemctl = init:/usr/sbin/systemctl, init:/sbin/systemctl
+/pin/sbin/rc\-service = init:/usr/sbin/rc\-service, init:/sbin/rc\-service
+/pin/sbin/rc\-status = init:/usr/sbin/rc\-status, init:/sbin/rc\-status
+/pin/sbin/rc\-update = init:/usr/sbin/rc\-update, init:/sbin/rc\-update
+
+# if wheezy has a custom built vim, prioritize that \- otherwise, fall back
+to normal locations through "/bin/" above
+/pin/bin/vim = wheezy:/opt/vim/bin/vim
+/pin/bin/vi = wheezy:/opt/vim/bin/vim
+
+# This will modify some of the fields in the freedesktop standard .desktop
+# items to fix local context issues.
+[exec\-filter]
+/applications/ = /usr/local/share/applications, /usr/share/applications
+
+[stratum\-order]
+# strata in the order they should be prioritized for items without specific
+# strata specified.  Note this does not have to be an exhaustive list \- any
+# strata missing will be added at the end (although the order is not
+# defined).
+wheezy
+jessie
+void
+crux
+arch
+sid
+.fi
+
+.SH EXIT STATUS
+.B crossfs
+.R returns 0 if succesful, or 1 if not running as root or if there was an error sharing the mount.
+.SH FILES
+.I /bedrock/strata/etc/brp.conf
+.R The configuration file that
+.B crossfs
+.R reads on startup, or when a write to \fIreparse_config\fR is detected. See the \fBCONFIGURATION\fR subsection for more information, of the \fBEXAMPLE CONFIG\fR subsection or an example configuration file.
+.SH NOTES
+.B crossfs
+was known as
+.B brp
+until Bedrock Linux 0.7.0 Poki
+.SH BUGS
+Please report any bugs you find by opening an issue at \fIhttps://github.com/bedrocklinux/bedrocklinux\-userland\fR or talking to \fIparadigm\fR in \fI#bedrock\fR on \fIirc.freenode.com\fR.
+.SH EXAMPLE
+To share
+.I /home
+.R between strata:
+.PP
+.nf
+.RS
+crossfs //home
+.RE
+.fi
+.PP
+.SH SEE ALSO
+.B brl(1)
+.B etcfs(1)
