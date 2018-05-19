@@ -120,7 +120,7 @@ will:
 .IP \(bu 2
 dereference all symlinks.  If any given item in a \fI[brc\-wrap]\fR directory is a broken symlink it is not shown.
 .IP \(bu 2
-The contents returned by a read() are a shell script which results in brc running the requested executable in the proper local context.
+The result of a \fBread(2)\fR is the contents of the \fBbouncer(1)\fR binary, which, when executed, will examine how it was started, and invoke \fBstrat(1)\fR with the proper arguments to start the command the user was trying to run in the appropriate stratum.
 .PP
 .IR [exec\-filter] " will:"
 .IP \(bu 2
