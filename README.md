@@ -4,7 +4,6 @@ use the command `man -l filename.1` to read a man page in the terminal. Use some
 
 TODO list
 
-- `bouncer`
 - `etcfs` ([bru](https://github.com/bedrocklinux/bedrocklinux-userland/blob/master/src/bru))
 - `brl`
 	- strat

@@ -17,7 +17,7 @@ The \fBbouncer\fR program reads the extended filesystem attributes of the file t
 .R can execute commands in
 .P
 .I /bedrock/run/enabled_strata/
-.R Holds root-owned non-world-writeable files that \fBbouncer\fR uses to determine if commands are runnable in the given strata
+.R Holds root\-owned non\-world\-writeable files that \fBbouncer\fR uses to determine if commands are runnable in the given strata
 .SH NOTES
 .B bouncer
 was introduced in Bedrock Linux 0.7.0 Poki. Previously, \fBread(2)\fRing a file in a \fBcrossfs(1)\fR filesystem (known as \fBbrp(1)\fR at the time) resulted in a script that looked like this
@@ -52,15 +52,16 @@ $ \fBwhich cowsay\fR
 $ \fB/bedrock/brpath/bin/cowsay Hello, world\fR
  ______________
 < Hello, world >
- --------------
+ \-\-\-\-\-\-\-\-\-\-\-\-\-\-
         \\   ^__^
          \\  (oo)\\_______
             (__)\\       )\\/\\
-                ||----w |
+                ||\-\-\-\-w |
                 ||     ||
 
 .RE
 .fi
 .PP
+If \fI/bedrock/brpath/bin\fR is in your \fI$PATH\fR, then running commands in other strata becomes transparent and seamless
 .SH SEE ALSO
 .B brl(1), crossfs(1)
