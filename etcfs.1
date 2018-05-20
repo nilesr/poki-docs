@@ -1,0 +1,70 @@
+.TH ETCFS 1
+.SH NAME
+etcfs \- unions a mount point across strata
+.SH SYNOPSIS
+.B etcfs
+.IR "mountpoint default_dir override_dir files" " ..."
+.SH DESCRIPTION
+This document describes the \fBetcfs\fR command, used to execute a command in a specific stratum. The \fBetcfs\fR command is part of the Bedrock Linux userland ⟨https://bedrocklinux.org⟩.
+.P
+.B etcfs
+mounts a filesystem, unioning the contents of two
+directories. All filesystem calls to the mount point will be redirected \fIdefault_dir\fR,
+except a specified list which will be redirected to \fIoverride_dir\fR.
+This is setup for you automatically by the \fBbrl(1)\fR command
+depending on the union in the \fIstratum.conf\fR file for any given stratum.
+.P
+Typically \fBetcfs\fR is invoked automatically by the \fBbrl(1)\fR command and will not be directly
+used by any individual.
+.P
+Unlike \fBcrossfs(1)\fR, \fBetcfs\fR is not read-only.
+
+.SS USAGE
+
+.IP \(bu 2
+The first argument is the mount point
+.IP \(bu 2
+The second argument is the directory to which filesystem calls will be
+redirected by default
+.IP \(bu 2
+The third argument is the directory specifically listed items will be
+redirected into
+.IP \(bu 2
+The remaining arguments are the files which should be redirected into the
+directory specified in the third argument rather than the second. These
+should be relative to the mount point and not start with a slash.
+
+.\" no options
+.\" .SH OPTIONS
+.\" blah blah blah
+.SH EXIT STATUS
+.B etcfs
+.R returns 0 if successful. If \fImountpoint\fR, \fIdefault_dir\fR or \fIoverride_dir\fR does not exist, it is not run as root, or another error occurs, it returns 1.
+.\" no files
+.\" .SH FILES
+.SH NOTES
+.B etcfs
+was known as
+.B bru
+until Bedrock Linux 0.7.0 Poki
+.SH BUGS
+Please report any bugs you find by opening an issue at \fIhttps://github.com/bedrocklinux/bedrocklinux\-userland\fR or talking to \fIparadigm\fR in \fI#bedrock\fR on \fIirc.freenode.com\fR.
+.SH EXAMPLE
+To redirect all calls to \fI/tmp\fR and its contents to \fI/mnt/realtmp\fR except for
+\fI.X11-unix\fR and \fI.X0-lock\fR, which will be redirected to \fI/dev/shm/.X11-unix\fR and
+\fI/dev/shm/.X0-lock\fR, run:
+
+.PP
+.nf
+.RS
+etcfs /tmp /mnt/realtmp /dev/shm /.X11-unix /.X0-lock
+.RE
+.fi
+.PP
+
+
+
+
+.SH SEE ALSO
+.B brl(1) crossfs(1)
+
