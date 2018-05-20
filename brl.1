@@ -1,0 +1,150 @@
+.TH BRL 1
+.SH NAME
+brl \- inspect and configure your Bedrock Linux system
+.SH SYNOPSIS
+.B brl
+.IR subcommand ...
+.SH DESCRIPTION
+This document describes the \fBbrl\fR command and its subcommands. The \fBbrl\fR command is part of the Bedrock Linux userland ⟨https://bedrocklinux.org⟩.
+.P
+.B brl
+provides several commands for monitoring and controlling a running Bedrock Linux system.
+.P
+It is broken down into several subcommands, specifically
+.IR strat ", " "fetch" ", " which ", " remove ", " rename ", " enable ", " disable ", " fix ", " ignore ", " unignore ", " alias ", " deref ", " update " and " report
+
+.SH SUBCOMMANDS
+.SS STRAT
+.B USAGE
+.RS 4
+.B brl strat
+[\fB\-\-arg0\fR \fINAME\fR]
+[\fB\-l\fR | \fB\-\-local\fR]
+.IR "stratum command" "..."
+.P
+.R executes \fIcommand\fR in the specified \fIstratum\fR.
+.R If \fB\-\-arg0\fR \fINAME\fR is specified, then \fINAME\fR is passed in as \fIargv[0]\fR when invoking the command.
+.R If \fB\-l\fR or \fB\-\-local\fR is specified, then the command will be unable to use commands from other strata.
+.P
+.R For full information, see \fBstrat\fR(1)
+.P
+.RE
+.B EXAMPLE
+.RS 4
+.nf
+.R $ \fBstrat arch make\fR
+gcc     test.c   \-o test
+.R $ \fBrm test\fR
+.R $ \fBstrat \-\-local arch make\fR
+gcc     test.c   \-o test
+make: gcc: Command not found
+make: *** [Makefile:2: test] Error 127
+.fi
+.P
+.RE
+
+
+.SS FETCH
+.B USAGE
+.RS 4
+.B brl fetch
+[\fB\-a\fR | \fB\-\-arch\fR \fIarch\fR]
+[\fB\-m\fR | \fB\-\-mirror\fR \fImirror\fR]
+[\fB\-r\fR | \fB\-\-release\fR \fIrelease\fR]
+[\fB\-R\fR | \fB\-\-region\fR \fIregion\fR]
+[\fB\-n\fR | \fB\-\-name\fR \fIname\fR]
+[\fB\-i\fR | \fB\-\-include\fR \fIpackages\fR...]
+.I distro
+.P
+.B brl fetch list-distros
+.P
+.B brl fetch list-releases
+.I distro
+.P
+.B brl fetch list-regions
+.I distro
+.P
+.B brl fetch list-mirrors
+.I distro
+.P
+.R Downloads the requested \fIdistro\fR as a strata, and optionally enables it.
+.P
+.B brl fetch
+.R reads from configuration files in \fI/bedrock/share/distros/\fR. The ones that ship by default with Bedrock Linux 0.7 Poki are
+.BR alpine ", " arch ", " debian ", " devuan ", " ubuntu ", " void " and " void-musl.
+.P
+If \fIarch\fR is not specified, it is determined automatically using \fBuname\fR(1).
+If \fImirror\fR or \fIregion\fR are not specified, they are determined automatically using \fBnetselect\fR(1).
+If \fIname\fR is not specified, it is set to \fIdistro\fR.
+.RE
+.P
+.B CONFIGURATION
+.RS 4
+.B brl fetch
+.R has two configuration settings, which can be changed at
+.\" TODO this is not going to be the final location
+.IR /bedrock/etc/brg.conf .
+.P
+.RI "The configuration item " ENABLE_AFTER_ACQUIRE " determines whether the stratum should be enabled after being downloaded and installed. The default value is " false
+.P
+.RI "The configuration item " CONFIG_ENABLE " determines how the stratum should be configured after being downloaded and installed. The default value is " boot ", indicating that the stratum should be automatically enabled on each boot. To prevent the stratum from being enabled automatically on boot, set the value to " manual ". These values mirror " /bedrock/etc/strata.conf .
+.P
+.RE
+.B EXAMPLE
+.RS 4
+.nf
+.R $ \fBstrat arch echo Hello, world\fR
+strat: could not find state file for stratum
+    arch
+at
+    /bedrock/run/enabled_strata/arch
+Perhaps the stratum is disabled or you typod the name?
+.R $ \fBbrl fetch arch\fR
+.I [output trimmed]
+.R $ \fBbrl enable arch\fR
+.I [output trimmed]
+.R $ \fBstrat arch echo Hello, world\fR
+Hello, world
+.fi
+.P
+.RE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.SH EXIT STATUS
+.B brl
+.R returns the 0 on success and 1 on failure.
+.SH FILES
+.I /bedrock/etc/strata.conf
+.R \- holds configuration for the current system's strata
+.P
+.I /bedrock/strata/
+.R Holds the installed strata, as well as symbolic links representing strata aliases
+.SH NOTES
+.B brl
+previously executed a command in all enabled strata until Bedrock Linux 0.7.0 Poki
+.SH BUGS
+Please report any bugs you find by opening an issue at \fIhttps://github.com/bedrocklinux/bedrocklinux\-userland\fR or talking to \fIparadigm\fR in \fI#bedrock\fR on \fIirc.freenode.com\fR.
+.SH SEE ALSO
+.B strat(1)
+
