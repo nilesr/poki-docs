@@ -145,6 +145,28 @@ artful (implicit)
 .RE
 
 
+.SS REMOVE
+.B USAGE
+.RS 4
+.B brl remove
+.I stratum
+.P
+.R Deletes the specified \fIstratum\fR permanently. If \fIstratum\fR is currently enabled, \fBbrl remove\fR will refuse to delete it, you must \fBbrl disable\fR it first.
+.P
+.R Local files in the \fIstratum\fR are NOT kept. \fIstratum\fR\-specific files in directories such as \fI/bedrock/etc/strata.d\fR are kept.
+.P
+.RE
+.B EXAMPLE
+.RS 4
+.nf
+.R $ \fBbrl which apt-get\fR
+artful (implicit)
+.R $ \fBbrl remove artful\fR
+.R $ \fBbrl which apt-get\fR
+(nonexistent)
+.fi
+.P
+.RE
 
 
 
@@ -157,7 +179,6 @@ artful (implicit)
 
 
 
-asdfasdfa
 
 
 
