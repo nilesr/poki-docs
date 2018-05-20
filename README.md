@@ -27,3 +27,5 @@ TODO list
 - I used uppercase for arguments to optional arguments (like --arg0 ARGUMENT). Should be lowercase and italic
 
 [small man format reference](https://linux.die.net/man/7/man)
+
+another reference is in `info groff` -> section 4 -> section 4.1
