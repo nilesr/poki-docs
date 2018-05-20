@@ -92,10 +92,10 @@ be unioned.  For example,
 .fi
 .PP
 
-Indicates that the root of the brp filesystem should have a directory called
+Indicates that the root of the \fBcrossfs\fR filesystem should have a directory called
 .IR man " which contains the union of all of the " "/usr/local/share/man" " and " "/usr/share/man"
 directories in all of the strata.  Any file or directory
-which appears in those directories, in any stratum, will appear in the brp
+which appears in those directories, in any stratum, will appear in the \fBcrossfs\fR
 filesystem.
 .PP
 If the key has a trailing slash then it is considered a directory and it will
@@ -187,6 +187,7 @@ sid
 .B crossfs
 .R returns 0 if succesful, or 1 if not running as root or if there was an error sharing the mount.
 .SH FILES
+.\" TODO this is NOT where we're going to keep it
 .I /bedrock/strata/etc/brp.conf
 .R The configuration file that
 .B crossfs

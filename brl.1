@@ -110,6 +110,39 @@ Hello, world
 .RE
 
 
+.SS WHICH
+.B USAGE
+.RS 4
+.B brl which
+.P
+.B brl which
+.I command
+.P
+.R If \fIcommand\fR was supplied, \fBbrl which\fR prints the first stratum that contains that command.
+.R The current stratum is given top priority. After that, strata follow in the priority that \fBcrossfs\fR(1) is using for \fI/bedrock/brpath\fR, which is configured in \fI/bedrock/etc/brp.conf\fR. For more information on configuring the priorty order, see \fBcrossfs\fR(1).
+.\" TODO brp.conf is NOT where it's going to be.
+.R After the stratum name, an indicator is printed in parenthesis. If the stratum where the command is found is the same as the invoking stratum, the indicator is \fB(direct)\fR. If it is another stratum, the indicator is \fB(implicit)\fR. If the command is not found in any stratum, the only output is \fB(nonexistent)\fR.
+.P
+.R if \fIcommand\fR is not supplied, the invoking stratum is printed.
+.P
+.B brl which
+.R always returns 0, even if \fIcommand\fR was not found in any strata.
+.P
+.RE
+.B EXAMPLE
+.RS 4
+.nf
+.R $ \fBbrl which\fR
+arch
+.R $ \fBbrl which cat\fR
+arch (direct)
+.R $ \fBbrl which apt-get\fR
+artful (implicit)
+.R $ \fBbrl which unlikely_to_exist\fR
+(nonexistent)
+.fi
+.P
+.RE
 
 
 
@@ -124,16 +157,14 @@ Hello, world
 
 
 
-
-
-
+asdfasdfa
 
 
 
 
 .SH EXIT STATUS
 .B brl
-.R returns the 0 on success and 1 on failure.
+.R returns the 0 on success and 1 on failure, except for \fBbrl which\fR which always returns 0.
 .SH FILES
 .I /bedrock/etc/strata.conf
 .R \- holds configuration for the current system's strata
