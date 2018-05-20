@@ -4,15 +4,25 @@ use the command `man -l filename.1` to read a man page in the terminal. Use some
 
 ## TODO list
 
-- `manage_tty_lock`? Unclear if this program is even used anymore
-- Maybe use section 8 instead of 1 for commands that need root
-- Crosslinking in generated html files
+- brpath -> cross
+- brg/distros -> brl-fetch/distros
+- no need to edit strata.conf
+- brl which reads extended filesystem attrs
+- user.bedrock.unignored attribute
+- strat has -h/--help
+- strat has -a for --arg0
+- brl reenable
+- brl version
+- brl list has -a/--include-aliases, -h/--help
+- brl list takes an optional category, one of enabled, disabled, unignored, ignored, aliases
+- brl which takes -b/--bin, -f/--filepath, -p/--pid, -x/--xwindow, -h/--help
+- brl which listings need --, also have -L/-R/-M
+- brl remove, rename, reenable has -f/--force and -h/--help
+- brl ignore, unignore, alias, deref, version, report has -h/--help
+- brl status
+- brl update has -m/--mirror, -f/--file, -s/--skip-check, -h/--help
+- Integrate man pages into website?
 
 [small man format reference](https://linux.die.net/man/7/man)
 
 another reference is in `info groff` -> section 4 -> section 4.1
-
-## questions for paradigm
-
-- what about bri -l? what about bri -c init?
-- hijack install should automatically configure init (brn) with that strata as the init strata
