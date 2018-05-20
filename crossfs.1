@@ -3,9 +3,9 @@
 crossfs \- shares a mount point between strata
 .SH SYNOPSIS
 .B crossfs
-.I MOUNT
+.I mount
 .SH DESCRIPTION
-This document describes the \fBcrossfs\fR command, used to share a mount point between strata. The \fBcrossfs\fR command is part of the Bedrock Linux userland ⟨https://bedrocklinux.org⟩.
+This document describes the \fBcrossfs\fR command, used to share a mount point (\fImount\fR) between strata. The \fBcrossfs\fR command is part of the Bedrock Linux userland ⟨https://bedrocklinux.org⟩.
 .P
 .B crossfs
 .R mounts a filesystem which provides the "implicit path" functionality for Bedrock Linux. Specifically it:
@@ -16,7 +16,7 @@ can see man pages placed in a variety of locations,
 .IP \(bu 2
 Modifies files to handle Bedrock Linux local context issues.  For example,
 executables in directories such as \fI/usr/bin\fR are redirected to Bedrock Linux's
-\fBbouncer(1)\fR utility,
+\fBbouncer\fR(1) utility,
 .IP \(bu 2
 Modifies symbolic links to handle the new mount point,
 .IP \(bu 2
@@ -32,7 +32,7 @@ Does not handle \fBreaddirplus(2)\fR,
 .IP \(bu 2
 populates the Bedrock Linux specific extended filesystem attributes
 .IR user.bedrock.stratum " and " user.bedrock.localpath ", used by "
-.B bouncer(1)
+.B bouncer\fR(1)
 
 .SS USAGE
 
@@ -45,17 +45,17 @@ To use (after it is properly configured), run:
 .PP
 .nf
 .RS
-crossfs \fIMOUNT\fR
+crossfs \fImount\fR
 .RE
 .fi
 .PP
 
-On a typical Bedrock Linux system, this mount point is
+On a typical Bedrock Linux system, \fImount\fR is
 .IR /bedrock/brpath .
 
 To tell it to reload its configuration file and list of strata, write
 (anything) to the file \fIreparse_config\fR in the location where it is mounted.
-Note that the \fBbrl(1)\fR utility will do this automatically when strata are enabled
+Note that the \fBbrl\fR(1) utility will do this automatically when strata are enabled
 or disabled.
 
 .SS CONFIGURATION
@@ -108,7 +108,7 @@ strata's instance of that path will be searched as a possible input source.
 If a stratum name is just before the path, delimited by a colon, then only that
 stratum's files will be searched.  This is useful to ensure that a given
 program always comes from one stratum.  For example, the stratum that provides
-\fBinit(1)\fR should also provide \fBreboot(1)\fR.
+\fBinit\fR(1) should also provide \fBreboot\fR(1).
 .PP
 The difference between
 .IR "[pass]" ", " "[brc\-wrap]" " and " "[exec\-filter]" " is that the former"
@@ -120,11 +120,11 @@ will:
 .IP \(bu 2
 dereference all symlinks.  If any given item in a \fI[brc\-wrap]\fR directory is a broken symlink it is not shown.
 .IP \(bu 2
-The result of a \fBread(2)\fR is the contents of the \fBbouncer(1)\fR binary, which, when executed, will examine how it was started, and invoke \fBstrat(1)\fR with the proper arguments to start the command the user was trying to run in the appropriate stratum.
+The result of a \fBread(2)\fR is the contents of the \fBbouncer\fR(1) binary, which, when executed, will examine how it was started, and invoke \fBstrat\fR(1) with the proper arguments to start the command the user was trying to run in the appropriate stratum.
 .PP
 .IR [exec\-filter] " will:"
 .IP \(bu 2
-Modify any \fIExec=\fR, \fITryExec=\fR, \fIExecStart=\fR, \fIExecStop=\fR, and/or \fIExecRestart=\fR lines it sees to call the given executable through \fBstrat(1)\fR to properly change context.
+Modify any \fIExec=\fR, \fITryExec=\fR, \fIExecStart=\fR, \fIExecStop=\fR, and/or \fIExecRestart=\fR lines it sees to call the given executable through \fBstrat\fR(1) to properly change context.
 
 .SS EXAMPLE CONFIG
 
@@ -211,5 +211,5 @@ crossfs //home
 .fi
 .PP
 .SH SEE ALSO
-.B brl(1)
-.B etcfs(1)
+.BR brl (1)
+.BR etcfs (1)

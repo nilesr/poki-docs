@@ -11,13 +11,13 @@ This document describes the \fBetcfs\fR command, used to execute a command in a 
 mounts a filesystem, unioning the contents of two
 directories. All filesystem calls to the mount point will be redirected \fIdefault_dir\fR,
 except a specified list which will be redirected to \fIoverride_dir\fR.
-This is setup for you automatically by the \fBbrl(1)\fR command
+This is setup for you automatically by the \fBbrl\fR(1) command
 depending on the union in the \fIstratum.conf\fR file for any given stratum.
 .P
-Typically \fBetcfs\fR is invoked automatically by the \fBbrl(1)\fR command and will not be directly
+Typically \fBetcfs\fR is invoked automatically by the \fBbrl\fR(1) command and will not be directly
 used by any individual.
 .P
-Unlike \fBcrossfs(1)\fR, \fBetcfs\fR is not read-only.
+Unlike \fBcrossfs\fR(1), \fBetcfs\fR is not read\-only.
 
 .SS USAGE
 
@@ -51,13 +51,13 @@ until Bedrock Linux 0.7.0 Poki
 Please report any bugs you find by opening an issue at \fIhttps://github.com/bedrocklinux/bedrocklinux\-userland\fR or talking to \fIparadigm\fR in \fI#bedrock\fR on \fIirc.freenode.com\fR.
 .SH EXAMPLE
 To redirect all calls to \fI/tmp\fR and its contents to \fI/mnt/realtmp\fR except for
-\fI.X11-unix\fR and \fI.X0-lock\fR, which will be redirected to \fI/dev/shm/.X11-unix\fR and
-\fI/dev/shm/.X0-lock\fR, run:
+\fI.X11\-unix\fR and \fI.X0\-lock\fR, which will be redirected to \fI/dev/shm/.X11\-unix\fR and
+\fI/dev/shm/.X0\-lock\fR, run:
 
 .PP
 .nf
 .RS
-etcfs /tmp /mnt/realtmp /dev/shm /.X11-unix /.X0-lock
+etcfs /tmp /mnt/realtmp /dev/shm /.X11\-unix /.X0\-lock
 .RE
 .fi
 .PP
@@ -66,5 +66,5 @@ etcfs /tmp /mnt/realtmp /dev/shm /.X11-unix /.X0-lock
 
 
 .SH SEE ALSO
-.B brl(1) crossfs(1)
+.BR brl (1) crossfs (1)
 

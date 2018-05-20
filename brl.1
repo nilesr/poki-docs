@@ -18,12 +18,12 @@ It is broken down into several subcommands, specifically
 .B USAGE
 .RS 4
 .B brl strat
-[\fB\-\-arg0\fR \fINAME\fR]
+[\fB\-\-arg0\fR \fIname\fR]
 [\fB\-l\fR | \fB\-\-local\fR]
 .IR "stratum command" "..."
 .P
 .R executes \fIcommand\fR in the specified \fIstratum\fR.
-.R If \fB\-\-arg0\fR \fINAME\fR is specified, then \fINAME\fR is passed in as \fIargv[0]\fR when invoking the command.
+.R If \fB\-\-arg0\fR is specified, then \fIname\fR is passed in as \fIargv[0]\fR when invoking the command.
 .R If \fB\-l\fR or \fB\-\-local\fR is specified, then the command will be unable to use commands from other strata.
 .P
 .R For full information, see \fBstrat\fR(1)
@@ -56,22 +56,22 @@ make: *** [Makefile:2: test] Error 127
 [\fB\-i\fR | \fB\-\-include\fR \fIpackages\fR...]
 .I distro
 .P
-.B brl fetch list-distros
+.B brl fetch list\-distros
 .P
-.B brl fetch list-releases
+.B brl fetch list\-releases
 .I distro
 .P
-.B brl fetch list-regions
+.B brl fetch list\-regions
 .I distro
 .P
-.B brl fetch list-mirrors
+.B brl fetch list\-mirrors
 .I distro
 .P
 .R Downloads the requested \fIdistro\fR as a strata, and optionally enables it.
 .P
 .B brl fetch
 .R reads from configuration files in \fI/bedrock/share/distros/\fR. The ones that ship by default with Bedrock Linux 0.7 Poki are
-.BR alpine ", " arch ", " debian ", " devuan ", " ubuntu ", " void " and " void-musl.
+.BR alpine ", " arch ", " debian ", " devuan ", " ubuntu ", " void " and " void\-musl.
 .P
 If \fIarch\fR is not specified, it is determined automatically using \fBuname\fR(1).
 If \fImirror\fR or \fIregion\fR are not specified, they are determined automatically using \fBnetselect\fR(1).
@@ -136,7 +136,7 @@ Hello, world
 arch
 .R $ \fBbrl which cat\fR
 arch (direct)
-.R $ \fBbrl which apt-get\fR
+.R $ \fBbrl which apt\-get\fR
 artful (implicit)
 .R $ \fBbrl which unlikely_to_exist\fR
 (nonexistent)
@@ -159,10 +159,10 @@ artful (implicit)
 .B EXAMPLE
 .RS 4
 .nf
-.R $ \fBbrl which apt-get\fR
+.R $ \fBbrl which apt\-get\fR
 artful (implicit)
 .R $ \fBbrl remove artful\fR
-.R $ \fBbrl which apt-get\fR
+.R $ \fBbrl which apt\-get\fR
 (nonexistent)
 .fi
 .P
@@ -181,12 +181,12 @@ artful (implicit)
 .B EXAMPLE
 .RS 4
 .nf
-.R $ \fBbrl which apt-get\fR
+.R $ \fBbrl which apt\-get\fR
 artful (implicit)
 .R $ \fBbrl disable artful\fR
 .R $ \fBbrl rename artful ubuntu\fR
 .R $ \fBbrl enable ubuntu\fR
-.R $ \fBbrl which apt-get\fR
+.R $ \fBbrl which apt\-get\fR
 ubuntu (implicit)
 .fi
 .P
@@ -205,9 +205,9 @@ ubuntu (implicit)
 .P
 .R Preenable scripts and postenable scripts may be specified in \fI/bedrock/etc/stratum.conf\fR, or you may specify a framework for \fIstratum\fR and that framework can have its own preenable and postenable scripts. The \fIdefault\fR framework is used if no framework is specified for \fIstratum\fR. The default framework has three preenable scripts. These are:
 .nf
-preenable = /bedrock/share/brs/force-symlinks
-preenable = /bedrock/share/brs/setup-etc
-preenable = /bedrock/share/brs/run-lock
+preenable = /bedrock/share/brs/force\-symlinks
+preenable = /bedrock/share/brs/setup\-etc
+preenable = /bedrock/share/brs/run\-lock
 .fi
 .P
 .R While a stratum is disabled, commands cannot be run in that stratum, but its files can still be accessed through \fI/bedrock/strata/\fR.
@@ -216,10 +216,10 @@ preenable = /bedrock/share/brs/run-lock
 .B EXAMPLE
 .RS 4
 .nf
-.R $ \fBbrl which apt-get\fR
+.R $ \fBbrl which apt\-get\fR
 (nonexistent)
-.R $ \fBapt-get\fR
-sh: apt-get: command not found
+.R $ \fBapt\-get\fR
+sh: apt\-get: command not found
 .R $ \fBbrl enable artful\fR
 Enabling artful
   Running preenable for artful... done
@@ -227,7 +227,7 @@ Enabling artful
   Running postenable for artful... done
   Setting artful as enabled... done
   Updating brpath... done
-.R $ \fBbrl which apt-get\fR
+.R $ \fBbrl which apt\-get\fR
 artful (implicit)
 .fi
 .P
@@ -252,7 +252,7 @@ artful (implicit)
 .B EXAMPLE
 .RS 4
 .nf
-.R $ \fBbrl which apt-get\fR
+.R $ \fBbrl which apt\-get\fR
 artful (implicit)
 .R $ \fBbrl disable artful\fR
 Disabling artful
@@ -262,7 +262,7 @@ Disabling artful
   Running postdisable for artful... done
   Setting artful as disabled... done
   Updating brpath... done
-.R $ \fBbrl which apt-get\fR
+.R $ \fBbrl which apt\-get\fR
 (nonexistent)
 .fi
 .P
@@ -301,7 +301,7 @@ Failed: it's totally fucking fucked mate, big time.
 .B EXAMPLE
 .RS 4
 .nf
-.R $ \fBbrl which apt-get\fR
+.R $ \fBbrl which apt\-get\fR
 artful (implicit)
 .R $ \fBbrl disable artful\fR
 [output trimmed]
@@ -326,7 +326,7 @@ TODO put message here
 .B EXAMPLE
 .RS 4
 .nf
-.R $ \fBbrl which apt-get\fR
+.R $ \fBbrl which apt\-get\fR
 artful (implicit)
 .R $ \fBbrl disable artful\fR
 [output trimmed]
@@ -351,16 +351,16 @@ TODO put message here
 .B EXAMPLE
 .RS 4
 .nf
-.\" TODO I want to show artful not displaying in the output of ``bri -l'' but bri is going away and I don't know what's replacing it
+.\" TODO I want to show artful not displaying in the output of ``bri \-l'' but bri is going away and I don't know what's replacing it
 .R $ \fBbrl ignore artful\fR
-.R $ \fBbrl which apt-get\fR
+.R $ \fBbrl which apt\-get\fR
 (nonexistent)
 .R $ \fBbrl unignore artful\fR
 .\" TODO what should this output?
 TODO put message here
 .R $ \fBbrl enable artful\fR
 [output trimmed]
-.R $ \fBbrl which apt-get\fR
+.R $ \fBbrl which apt\-get\fR
 artful (implicit)
 .fi
 .P
@@ -373,8 +373,10 @@ artful (implicit)
 .B brl alias
 .I existing new
 .P
-.R Creates an alias of the name \fInew\fR, which points to \fIexisting\fR. Aliases in Bedrock Linux are first-class, so in any \fBbrl\fR command where you write \fIexisting\fR, you will be able to write \fInew\fR instead. Aliases are preserved across reboots. The special alias \fIinit\fR is created automatically by \fBinit\fR(1) on boot, and points to the stratum that provides \fBinit\fR(1).
+.R Creates an alias of the name \fInew\fR, which points to \fIexisting\fR. Aliases in Bedrock Linux are first\-class, so in any \fBbrl\fR command where you write \fIexisting\fR, you will be able to write \fInew\fR instead. Aliases are preserved across reboots. The special alias \fIinit\fR is created automatically by \fBinit\fR(1) on boot, and points to the stratum that provides \fBinit\fR(1).
 .\" TODO should be bedrock_init(1) or something
+.P
+.R You may not create aliases to other aliases.
 .P
 .R \fInew\fR must not be the name of an existing stratum or alias, and \fIexisting\fR must be an existing stratum and may not be an alias.
 .P
@@ -384,7 +386,7 @@ artful (implicit)
 .B EXAMPLE
 .RS 4
 .nf
-.R $ \fBbrl which apt-get\fR
+.R $ \fBbrl which apt\-get\fR
 (nonexistent)
 .R $ \fBbrl enable ubuntu\fR
 .\" TODO what should this output?
@@ -392,17 +394,77 @@ some error message
 .R $ \fBbrl alias artful ubuntu\fR
 .R $ \fBbrl enable ubuntu\fR
 [output trimmed]
-.R $ \fBbrl which apt-get\fR
+.R $ \fBbrl which apt\-get\fR
 artful (implicit)
 .fi
 .P
 .RE
 
 
+.SS DEREF
+.B USAGE
+.RS 4
+.B brl deref
+.I alias
+.P
+.R Prints the stratum that \fIalias\fR points to, if it is an alias. If it is not an alias, \fIalias\fR is printed. \fIinit\fR is a special alias that always points to the stratum providing
+.BR init (1)
+.P
+.RE
+.B EXAMPLE
+.RS 4
+.nf
+.R $ \fBbrl which apt\-get\fR
+artful (implicit)
+.R $ \fBbrl deref ubuntu\fR
+artful
+.R $ \fBbrl deref artful\fR
+artful
+.fi
+.P
+.RE
+
+.SS UPDATE
+.B USAGE
+.RS 4
+.B brl update
+.P
+.R Upgrades a running bedrock system in\-place, including \fBbrl fetch\fR configuration and documentation. \fBbrl update\fR cannot update between major releases of Bedrock Linux, but it will notify you if one is available. 
+.P
+.RE
+.B EXAMPLE
+.RS 4
+.nf
+.R $ \fBbrl update\fR
+Checking... up to date.
+.fi
+.P
+.RE
 
 
 
-
+.SS REPORT
+.B USAGE
+.RS 4
+.B brl report
+[\fB\-f\fR \fIfile\fR]
+[\fB\-h\fR]
+.P
+.R Exports a large text file with all of your Bedrock Linux configuration and other relevant system configuration and status. \fIparadigm\fR or one of the other developers may ask you to run this command and send them the output while troubleshooting. If \fB\-f\fR is passed, all output is printed to \fIfile\fR, otherwise all output is pritned to stdout.
+.P
+.R \fB\-h\fR causes some help text to be printed, and no report is generated.
+.P
+.R Until Bedrock Linux 0.7.0 Poki, this command was known as \fBbrr\fR(1)
+.P
+.RE
+.B EXAMPLE
+.RS 4
+.nf
+.R $ \fBbrl report | curl \-F'file=@\-' 0x0.st\fR
+https://0x0.st/example.txt
+.fi
+.P
+.RE
 
 
 

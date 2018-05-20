@@ -3,7 +3,7 @@
 strat \- execute a command in a particular stratum
 .SH SYNOPSIS
 .B strat
-[\fB\-\-arg0\fR \fINAME\fR]
+[\fB\-\-arg0\fR \fIname\fR]
 [\fB\-l\fR | \fB\-\-local\fR]
 .I stratum
 .IR command ...
@@ -12,14 +12,14 @@ This document describes the \fBstrat\fR command, used to execute a command in a 
 .P
 .B strat
 provides the ability to run commands in strata, properly handling
-local-context switches.
+local\-context switches.
 .SS CONFIGURATION
-If there exists a root-owned, only-root-writable file at
+If there exists a root\-owned, only\-root\-writable file at
 
 .PP
 .nf
 .RS
-/bedrock/run/enabled_strata/<stratum-name>
+/bedrock/run/enabled_strata/\fBstratum\fR
 .RE
 .fi
 .PP
@@ -28,16 +28,16 @@ If there exists a root-owned, only-root-writable file at
 will allow users to run software from that stratum, switching out local
 context files accordingly.  If this file does not exist or is writable by
 anyone other than root, \fBstrat\fR will refuse to operate.  Be sure the stratum's files
-exist at \fI/bedrock/strata/<stratum-name>\fR and that \fIbrl(1)\fR has set it up
-(check \fBbrl status <stratum-name>\fR).  This should "just work" on a properly setup
+exist at \fI/bedrock/strata/\fBstratum\fR and that \fIbrl\fR(1) has set it up
+(check \fBbrl status \fBstratum\fR).  This should "just work" on a properly setup
 Bedrock Linux system.
 
 .SH OPTIONS
 .TP
 The command line is NOT parsed according to the usual GNU convention. The whitespace between a command line option and its argument is NOT optional. Options MAY NOT be grouped behind a single \(aq\-\(aq (minus character).
 .TP
-.BR \-\-arg0 " " \fINAME
-.R Passes \fINAME\fR as the first (zeroth) argument to \fIcommand\fR. This is needed to support cross\-stratum login shells, as \fBlogin(1)\fR communicates to the given shell that it is a login shell through \fIargv[0]\fR. Some other programs make use of \fIargv[0]\fR, such as \fBbusybox(1)\fR
+.BR \-\-arg0 " " \fIname
+.R Passes \fIname\fR as the first (zeroth) argument to \fIcommand\fR. This is needed to support cross\-stratum login shells, as \fBlogin\fR(1) communicates to the given shell that it is a login shell through \fIargv[0]\fR. Some other programs make use of \fIargv[0]\fR, such as \fBbusybox\fR(1)
 .TP
 .BR \-l ", " \-\-local
 .R Restricts all commands to running only in the specified stratum. For example, when building something, it may be useful to ensure the build is not dependent across strata. This argument disables cross\-stratum functionality for the command.
@@ -50,7 +50,7 @@ The command line is NOT parsed according to the usual GNU convention. The whites
 .R can execute commands in
 .P
 .I /bedrock/run/enabled_strata/
-.R Holds root-owned non-world-writeable files that \fBstrat\fR uses to determine if commands are runnable in the given strata
+.R Holds root\-owned non\-world\-writeable files that \fBstrat\fR uses to determine if commands are runnable in the given strata
 .SH NOTES
 .B strat
 was known as
@@ -85,4 +85,4 @@ make: *** [Makefile:2: test] Error 127
 .fi
 .PP
 .SH SEE ALSO
-.B brl(1)
+.BR brl (1)
