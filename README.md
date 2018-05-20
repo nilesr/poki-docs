@@ -11,3 +11,8 @@ use the command `man -l filename.1` to read a man page in the terminal. Use some
 [small man format reference](https://linux.die.net/man/7/man)
 
 another reference is in `info groff` -> section 4 -> section 4.1
+
+## questions for paradigm
+
+- what about bri -l? what about bri -c init?
+- hijack install should automatically configure init (brn) with that strata as the init strata
