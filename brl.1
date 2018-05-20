@@ -100,9 +100,9 @@ at
     /bedrock/run/enabled_strata/arch
 Perhaps the stratum is disabled or you typod the name?
 .R $ \fBbrl fetch arch\fR
-.I [output trimmed]
+[output trimmed]
 .R $ \fBbrl enable arch\fR
-.I [output trimmed]
+[output trimmed]
 .R $ \fBstrat arch echo Hello, world\fR
 Hello, world
 .fi
@@ -151,9 +151,9 @@ artful (implicit)
 .B brl remove
 .I stratum
 .P
-.R Deletes the specified \fIstratum\fR permanently. If \fIstratum\fR is currently enabled, \fBbrl remove\fR will refuse to delete it, you must \fBbrl disable\fR it first.
+.R If \fIstratum\fR is not an alias, deletes the specified \fIstratum\fR permanently. If \fIstratum\fR is not an alias and is currently enabled, \fBbrl remove\fR will refuse to delete it, you must \fBbrl disable\fR it first. If \fIstratum\fR is an alias, it is removed, but the stratum it pointed to is kept.
 .P
-.R Local files in the \fIstratum\fR are NOT kept. \fIstratum\fR\-specific files in directories such as \fI/bedrock/etc/strata.d\fR are kept.
+.R Local files in \fIstratum\fR are NOT kept. \fIstratum\fR\-specific files in directories such as \fI/bedrock/etc/strata.d\fR are kept.
 .P
 .RE
 .B EXAMPLE
@@ -301,7 +301,6 @@ Failed: it's totally fucking fucked mate, big time.
 .B EXAMPLE
 .RS 4
 .nf
-
 .R $ \fBbrl which apt-get\fR
 artful (implicit)
 .R $ \fBbrl disable artful\fR
@@ -315,8 +314,89 @@ TODO put message here
 .RE
 
 
+.SS IGNORE
+.B USAGE
+.RS 4
+.B brl ignore
+.I stratum
+.P
+.R Tells Bedrock Linux to pretend that \fIstratum\fR doesn't exist, even if it has configuration in \fI/bedrock/etc/strata.conf\fR. This is invoked automatically by \fBbrl fetch\fR to prevent problems arising from interacting with a stratum that is still being installed, so you typically don't need to invoke it manually. \fIstratum\fR may not be ignored if it is currently enabled, you must disable it first using \fBbrl disable\fI
+.P
+.RE
+.B EXAMPLE
+.RS 4
+.nf
+.R $ \fBbrl which apt-get\fR
+artful (implicit)
+.R $ \fBbrl disable artful\fR
+[output trimmed]
+.R $ \fBbrl ignore artful\fR
+.R $ \fBbrl enable artful\fR
+.\" TODO what should this output?
+TODO put message here
+.fi
+.P
+.RE
 
 
+.SS UNIGNORE
+.B USAGE
+.RS 4
+.B brl unignore
+.I stratum
+.P
+.R Tells Bedrock Linux to stop pretend that \fIstratum\fR doesn't exist. This is invoked automatically by \fBbrl fetch\fR when it is done installing \fIstratum\fR, so you typically don't need to invoke it manually. \fIstratum\fR cannot be enabled if it is ignored.
+.P
+.RE
+.B EXAMPLE
+.RS 4
+.nf
+.\" TODO I want to show artful not displaying in the output of ``bri -l'' but bri is going away and I don't know what's replacing it
+.R $ \fBbrl ignore artful\fR
+.R $ \fBbrl which apt-get\fR
+(nonexistent)
+.R $ \fBbrl unignore artful\fR
+.\" TODO what should this output?
+TODO put message here
+.R $ \fBbrl enable artful\fR
+[output trimmed]
+.R $ \fBbrl which apt-get\fR
+artful (implicit)
+.fi
+.P
+.RE
+
+
+.SS ALIAS
+.B USAGE
+.RS 4
+.B brl alias
+.I existing new
+.P
+.R Creates an alias of the name \fInew\fR, which points to \fIexisting\fR. Aliases in Bedrock Linux are first-class, so in any \fBbrl\fR command where you write \fIexisting\fR, you will be able to write \fInew\fR instead. Aliases are preserved across reboots. The special alias \fIinit\fR is created automatically by \fBinit\fR(1) on boot, and points to the stratum that provides \fBinit\fR(1).
+.\" TODO should be bedrock_init(1) or something
+.P
+.R \fInew\fR must not be the name of an existing stratum or alias, and \fIexisting\fR must be an existing stratum and may not be an alias.
+.P
+\fBbrl alias\fR creates a symbolic link at \fI/bedrock/strata/\fBnew\fR pointing to \fIexisting\fR, and creates a file at \fI/bedrock/etc/aliases.d/\fBnew\fR with the correct configuration.
+.P
+.RE
+.B EXAMPLE
+.RS 4
+.nf
+.R $ \fBbrl which apt-get\fR
+(nonexistent)
+.R $ \fBbrl enable ubuntu\fR
+.\" TODO what should this output?
+some error message
+.R $ \fBbrl alias artful ubuntu\fR
+.R $ \fBbrl enable ubuntu\fR
+[output trimmed]
+.R $ \fBbrl which apt-get\fR
+artful (implicit)
+.fi
+.P
+.RE
 
 
 
