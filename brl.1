@@ -175,7 +175,7 @@ artful (implicit)
 .B brl rename
 .I old new
 .P
-.R Renames the stratum \fIold\fI to \fInew\fR. If \fIold\fR was an alias, it is deleted, and a new alias pointing to where \fIold\fR pointed is created with the name \fInew\fR. If \fIold\fR is not an alias, it must be disabled (via \fBbrl disable\fR) before you can rename it.
+.R Renames the stratum \fIold\fR to \fInew\fR. If \fIold\fR was an alias, it is deleted, and a new alias pointing to where \fIold\fR pointed is created with the name \fInew\fR. If \fIold\fR is not an alias, it must be disabled (via \fBbrl disable\fR) before you can rename it.
 .P
 .RE
 .B EXAMPLE
@@ -204,11 +204,14 @@ ubuntu (implicit)
 .R Enabling \fIstratum\fR first runs the preenable scripts, then shares global mountpoints into \fI/bedrock/strata/\fBstratum\fR. After that, the postenable script is run, \fIstratum\fR is set as enabled by creating \fI/bedrock/run/enabled_strata/\fBstratum\fR, and \fI/bedrock/brpath\fR is updated. For more information on \fI/bedrock/brpath\fR see \fBcrossfs\fR(1).
 .P
 .R Preenable scripts and postenable scripts may be specified in \fI/bedrock/etc/stratum.conf\fR, or you may specify a framework for \fIstratum\fR and that framework can have its own preenable and postenable scripts. The \fIdefault\fR framework is used if no framework is specified for \fIstratum\fR. The default framework has three preenable scripts. These are:
+.P
+.RS 4
 .nf
 preenable = /bedrock/share/brs/force\-symlinks
 preenable = /bedrock/share/brs/setup\-etc
 preenable = /bedrock/share/brs/run\-lock
 .fi
+.RE
 .P
 .R While a stratum is disabled, commands cannot be run in that stratum, but its files can still be accessed through \fI/bedrock/strata/\fR.
 .P
