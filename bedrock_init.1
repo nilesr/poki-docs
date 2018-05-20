@@ -1,0 +1,45 @@
+.TH INIT 1
+.SH NAME
+init \- setup all strata and them boot into the init stratum
+.SH SYNOPSIS
+.B init
+.SH DESCRIPTION
+This document describes the \fBinit\fR command, which sets up all strata and then boots into the user's selected init stratum. The \fBinit\fR command is part of the Bedrock Linux userland ⟨https://bedrocklinux.org⟩.
+.P
+.B init
+should be automatically loaded by your bootloader, and must be run as PID 1. On startup, it loads the fuse kernel module, then enables all strata that have \fIenable=boot\fR (the default) configured in \fI/bedrock/etc/strata.conf\fR.
+.SS CONFIGURATION
+
+Strata are defined in \fI/bedrock/etc/strata.conf\fR. If a stratum should be enabled on startup (the default behavior), set \fIenable=boot\fR in that stratum's configuration in that file. To prevent this behavior, set \fIenable=manual\fR instead.
+.P
+.B init
+.\" TODO that's not the right path
+.R also has three \fBinit\fR\-specific configuration items in \fI/bedrock/etc/brn.conf\fR.
+.P
+.R The configuration item \fBtimeout\fR has a configurable timeout for letting the user select their init stratum. If the user needs to select an init stratum, and no user input is recieved within this timeout, the default item will be selected from the boot menu. The default is \fItimeout=30\fR. The timeout is measured in seconds. Decimal numbers (such as \fI0.5\fR) are allowed. A value of 0 indicates that the default stratum should be selected immediately, and no menu should be shown to the user. A value of -1 indicates that the menu should be displayed indefinitely, and the boot should never proceed without user input.
+.P
+.R The configuration item \fBdefault_stratum\fR indicates which stratum should be selected by default at the menu (or automatically booted into if \fItimeout\fR = 0). This may be an alias, but it must not be the \fIinit\fR alias, as that is not created until after the user selects the init stratum. 
+.P
+.R The configuration item \fBdefault_cmd\fR indicates the path to the local init inside \fIdefault_stratum\fR. For \fBsystemd\fR(1) based distros, this is usually \fI/lib/systemd/systemd\fR. For other distros, it is usually \fI/sbin/init\fR.
+.P
+.R If \fIdefault_cmd\fR is not set, it is automatically determined based on the configuration for \fIdefault_stratum\fR in \fI/bedrock/etc/strata.conf\fR. If \fIdefault_stratum\fR is not set, the default selection at the boot menu is undefined.
+
+.SH EXIT STATUS
+.B init
+.R does not exit successfully until the kenrnel is ready to shutdown the computer. If \fBinit\fR is not run as root, or if the fuse module could not be loaded, or the init strata cannot be enabled, it returns 1. In most cases, this results in a kernel panic.
+.P
+.R Running \fBinit\fR as any PID other than PID 1 results in undefined behavior.
+.SH FILES
+.IR /bedrock/etc/strata.conf " \- holds configuration for the strata that"
+.B init
+.R may enable on boot.
+.SH NOTES
+.B init
+was known as
+.B brn
+until Bedrock Linux 0.7.0 Poki
+.SH BUGS
+Please report any bugs you find by opening an issue at \fIhttps://github.com/bedrocklinux/bedrocklinux\-userland\fR or talking to \fIparadigm\fR in \fI#bedrock\fR on \fIirc.freenode.com\fR.
+.SH SEE ALSO
+.BR brl (1)
+

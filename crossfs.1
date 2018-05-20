@@ -28,7 +28,7 @@ file is accessed it is always up\-to\-date,
 Can be told to reload its config on\-the\-fly to, for example,
 handle the addition or removal of the directories it is unioning,
 .IP \(bu 2
-Does not handle \fBreaddirplus(2)\fR,
+Does not handle \fBreaddirplus\fR(2),
 .IP \(bu 2
 populates the Bedrock Linux specific extended filesystem attributes
 .IR user.bedrock.stratum " and " user.bedrock.localpath ", used by "
@@ -120,7 +120,7 @@ will:
 .IP \(bu 2
 dereference all symlinks.  If any given item in a \fI[brc\-wrap]\fR directory is a broken symlink it is not shown.
 .IP \(bu 2
-The result of a \fBread(2)\fR is the contents of the \fBbouncer\fR(1) binary, which, when executed, will examine how it was started, and invoke \fBstrat\fR(1) with the proper arguments to start the command the user was trying to run in the appropriate stratum.
+The result of a \fBread\fR(2) is the contents of the \fBbouncer\fR(1) binary, which, when executed, will examine how it was started, and invoke \fBstrat\fR(1) with the proper arguments to start the command the user was trying to run in the appropriate stratum.
 .PP
 .IR [exec\-filter] " will:"
 .IP \(bu 2

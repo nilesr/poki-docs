@@ -199,7 +199,7 @@ ubuntu (implicit)
 .B brl enable
 .I stratum
 .P
-.R Enables \fIstratum\fR, creating all mount points as necessary. If \fIstratum\fR is configured with \fIenable=boot\fR then this is done automatically on boot by \fBinit\fR(1). The stratum providing \fBinit\fR(1) is always enabled.
+.R Enables \fIstratum\fR, creating all mount points as necessary. If \fIstratum\fR is configured with \fIenable=boot\fR then this is done automatically on boot by \fBbedrock_init\fR(1). The stratum providing \fBinit\fR(1) is always enabled.
 .P
 .R Enabling \fIstratum\fR first runs the preenable scripts, then shares global mountpoints into \fI/bedrock/strata/\fBstratum\fR. After that, the postenable script is run, \fIstratum\fR is set as enabled by creating \fI/bedrock/run/enabled_strata/\fBstratum\fR, and \fI/bedrock/brpath\fR is updated. For more information on \fI/bedrock/brpath\fR see \fBcrossfs\fR(1).
 .P
@@ -376,8 +376,7 @@ artful (implicit)
 .B brl alias
 .I existing new
 .P
-.R Creates an alias of the name \fInew\fR, which points to \fIexisting\fR. Aliases in Bedrock Linux are first\-class, so in any \fBbrl\fR command where you write \fIexisting\fR, you will be able to write \fInew\fR instead. Aliases are preserved across reboots. The special alias \fIinit\fR is created automatically by \fBinit\fR(1) on boot, and points to the stratum that provides \fBinit\fR(1).
-.\" TODO should be bedrock_init(1) or something
+.R Creates an alias of the name \fInew\fR, which points to \fIexisting\fR. Aliases in Bedrock Linux are first\-class, so in any \fBbrl\fR command where you write \fIexisting\fR, you will be able to write \fInew\fR instead. Aliases are preserved across reboots. The special alias \fIinit\fR is created automatically by \fBbedrock_init\fR(1) on boot, and points to the stratum that provides \fBinit\fR(1).
 .P
 .R You may not create aliases to other aliases.
 .P

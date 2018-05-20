@@ -4,7 +4,6 @@ use the command `man -l filename.1` to read a man page in the terminal. Use some
 
 TODO list
 
-- `init` - This name will conflict with the built in init command, maybe `bedrock_init`?
 - `manage_tty_lock`? Unclear if this program is even used anymore
 - Maybe use section 8 instead of 1 for commands that need root
 - Crosslinking in generated html files
