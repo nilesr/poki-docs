@@ -25,6 +25,8 @@ use the command `man -l filename.1` to read a man page in the terminal. Use some
 - crossfs uses the [global] and [cross] sections of bedrock.conf
 - crossfs format for .config-filesystem in /bedrock/cross
 - email is danthau@bedrocklinux.org - put in BUGS sections
+- maybe convert to scdoc (sircmpwn?) 
+- fish completions
 - Integrate man pages into website?
 
 [small man format reference](https://linux.die.net/man/7/man)
