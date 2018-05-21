@@ -21,6 +21,10 @@ use the command `man -l filename.1` to read a man page in the terminal. Use some
 - brl ignore, unignore, alias, deref, version, report has -h/--help
 - brl status
 - brl update has -m/--mirror, -f/--file, -s/--skip-check, -h/--help
+- init uses the [init] section of bedrock.conf
+- crossfs uses the [global] and [cross] sections of bedrock.conf
+- crossfs format for .config-filesystem in /bedrock/cross
+- email is danthau@bedrocklinux.org - put in BUGS sections
 - Integrate man pages into website?
 
 [small man format reference](https://linux.die.net/man/7/man)
